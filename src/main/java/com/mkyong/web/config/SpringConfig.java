@@ -1,4 +1,4 @@
-package com.mkyong.web.config;
+package com.apodo.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"com.mkyong.web"})
+@ComponentScan({"com.apodo.web"})
 public class SpringConfig implements WebMvcConfigurer {
 
     // @Override

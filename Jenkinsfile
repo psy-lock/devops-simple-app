@@ -12,8 +12,14 @@ pipeline {
                 archiveArtifacts artifacts: '**/*.war'
             }
         }
+        stage('TEST trigger') {
+            steps {
+                echo 'SOME INFO'
+            }
+        }
         stage('Deploy'){
             steps{
+                echo 'Deploying to Tomcat'
                 deploy adapters: [tomcat8(url: "http://${TOMCAT_URL}:8080/", 
                     credentialsId: 'tomcat-deployer')], 
                     war: '**/*.war',

@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        TOMCAT_URL=172.31.97.126
+        TOMCAT_URL='172.31.97.126'
 	}
     stages {
         stage('Build') {

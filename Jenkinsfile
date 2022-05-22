@@ -16,7 +16,7 @@ pipeline {
             steps{
                 deploy adapters: [tomcat8(url: 'http://$TOMCAT_URL:8080/', 
                     credentialsId: 'tomcat-deployer')], 
-                    war: 'target/*.war',
+                    war: '**/*.war',
                     contextPath: 'webapp'
             }
             

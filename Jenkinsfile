@@ -12,11 +12,6 @@ pipeline {
                 archiveArtifacts artifacts: '**/*.war'
             }
         }
-        stage('TEST trigger') {
-            steps {
-                echo 'SOME INFO'
-            }
-        }
         stage('Deploy'){
             steps{
                 echo 'Deploying to Tomcat'

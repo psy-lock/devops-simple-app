@@ -14,11 +14,11 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan({"com.mkyong.web"})
 public class SpringConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
-    }
+    // @Override
+    // public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    //     registry.addResourceHandler("/resources/**")
+    //             .addResourceLocations("/resources/");
+    // }
 
     @Bean
     public InternalResourceViewResolver viewResolver() {

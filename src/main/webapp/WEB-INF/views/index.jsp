@@ -8,5 +8,7 @@
 <h2>Today is <fmt:formatDate type = "both" dateStyle = "long" timeStyle = "long" value = "${today}" /></h2>
 </br>
 <h1 style="color: rgb(17, 112, 255);">Running from ${env}</h1>
+<h3> Meeting at 6.30 pm </h3>
+<h1 style="color: crimson;">-------------------------------------------------------</h1>
 </body>
 </html>

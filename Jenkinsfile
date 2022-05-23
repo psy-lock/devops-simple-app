@@ -41,17 +41,10 @@ pipeline {
         }
          stage ('DeployToProduction') {
             steps {
-                input 'Deploy to Production'
                 withCredentials ([usernamePassword(credentialsId: 'jenkins-deployer', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
-                        sh "ssh -o StrictHostKeyChecking=no $USERNAME@${TOMCAT_URL} \"docker pull ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
-                        try {
-                        sh "ssh -o StrictHostKeyChecking=no $USERNAME@${TOMCAT_URL} \"docker stop ${IMAGE_NAME}\""
-                        sh "ssh -o StrictHostKeyChecking=no $USERNAME@${TOMCAT_URL} \"docker rm ${IMAGE_NAME}\""
-                        } catch (err) {
-                            echo: 'caught error: $err'
-                        }
-                        sh "ssh -o StrictHostKeyChecking=no $USERNAME@${TOMCAT_URL} \"docker run --restart always --name ${IMAGE_NAME} -p 9090:8080 -d ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
+                        sh "ssh -o StrictHostKeyChecking=no $USERNAME@${TOMCAT_URL} \"systemctl status tomcat\""
+                        
                     }
                 }
             }

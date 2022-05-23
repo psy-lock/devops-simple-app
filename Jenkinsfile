@@ -9,18 +9,22 @@ pipeline {
             steps {
                 echo 'Running build automation'
                 sh 'mvn clean package'
-                archiveArtifacts artifacts: '**/*.war'
             }
         }
         stage('Deploy'){
             steps{
+                echo 'Deploying to Tomcat'
                 deploy adapters: [tomcat8(url: "http://${TOMCAT_URL}:8080/", 
                     credentialsId: 'tomcat-deployer')], 
-                    war: '**/*.war',
-                    contextPath: 'webapp'
+                    war: '**/*.war'
             }
             
         }
     }
-        
+    post {
+        always {
+            junit '**/target/surefire-reports/TEST-*.xml'
+            archiveArtifacts artifacts: '**/*.war'
+        }
+    }   
 }

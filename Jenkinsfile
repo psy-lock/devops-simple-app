@@ -6,7 +6,6 @@ pipeline {
     }
     environment {
         DOCKERHUB_USR='psylock'
-        TOMCAT_CREDS=credentials('tomcat-deployer')
         IMAGE_NAME='devops-simple-app'
         SSH_COMMAND = "ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/id_rsa jenkins@${TOMCAT_URL}"
     }
@@ -44,7 +43,7 @@ pipeline {
             steps {
                 script{
                     try {
-                        sh "docker rmi $(docker images -q ${DOCKERHUB_USR}/*)"  
+                        sh "docker rmi \$(docker images -q ${DOCKERHUB_USR}/*)"  
                     }
                     catch (err) {
                         echo: 'caught error: $err'
@@ -63,7 +62,8 @@ pipeline {
                             echo: 'caught error: $err'
                         }
                         sh "${SSH_COMMAND} \"docker pull ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
-                        sh "${SSH_COMMAND} \"docker run --restart always --name ${IMAGE_NAME} -p 9090:8080 -d ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
+                        sh "${SSH_COMMAND} \"docker run --restart always --name ${IMAGE_NAME} \
+                            -p 9090:8080 -d ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
                 }
             }
         }

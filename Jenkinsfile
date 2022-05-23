@@ -17,11 +17,6 @@ pipeline {
                 archiveArtifacts artifacts: '**/*.war'
             }
         }
-        post {
-            always {
-                junit '**/target/surefire-reports/TEST-*.xml'
-            }
-        }
     
          stage('Build Docker Image') {
             steps {
@@ -62,5 +57,9 @@ pipeline {
             }
         }
     }
-        
+    post {
+        always {
+            junit '**/target/surefire-reports/TEST-*.xml'
+        }
+    }
 }

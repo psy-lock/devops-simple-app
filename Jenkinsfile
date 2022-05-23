@@ -57,7 +57,7 @@ pipeline {
                         try {
                         sh "${SSH_COMMAND} \"docker stop ${IMAGE_NAME}\""
                         sh "${SSH_COMMAND} \"docker rm ${IMAGE_NAME}\""
-                        sh "${SSH_COMMAND} \"docker rmi $(docker images -q ${DOCKERHUB_USR}/*)\"" 
+                        sh "${SSH_COMMAND} \"docker rmi \$(docker images -q ${DOCKERHUB_USR}/*)\"" 
                         } catch (err) {
                             echo: 'caught error: $err'
                         }

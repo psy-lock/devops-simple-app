@@ -43,7 +43,7 @@ pipeline {
             steps {
                 withCredentials ([usernamePassword(credentialsId: 'jenkins-deployer', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
-                        sh "ssh -o StrictHostKeyChecking=no $USERNAME@${TOMCAT_URL} \"systemctl status tomcat\""
+                        sh "ssh -o StrictHostKeyChecking=no -i /home/cloud_user/.ssh/id_rsa /$USERNAME@${TOMCAT_URL} \"systemctl status tomcat\""
                         
                     }
                 }

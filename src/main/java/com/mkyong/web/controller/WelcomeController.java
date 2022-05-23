@@ -12,6 +12,7 @@ public class WelcomeController {
     public String index(Model model) {
         model.addAttribute("msg", getMessage());
         model.addAttribute("today", new Date());
+        model.addAttribute("env", "DOCKER CONTAINER !");
         return "index";
 
     }

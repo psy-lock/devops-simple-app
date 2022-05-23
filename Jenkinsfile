@@ -22,9 +22,6 @@ pipeline {
                 echo 'Creating image'
                 script {
                     app = docker.build("${DOCKERHUB_USR}/${IMAGE_NAME}")
-                    app.inside {
-                        sh 'curl localhost:8080/simple-dynamic-page'
-                    }
                 }
             }
         }

@@ -50,4 +50,9 @@ public class TestWelcome {
         assertEquals(2, 1 + 1);
     }
 
+     @Test
+    public void incorecTest() {
+        assertEquals(10, 1 + 1);
+    }
+
 }

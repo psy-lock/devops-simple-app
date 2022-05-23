@@ -8,13 +8,13 @@ pipeline {
         DOCKERHUB_USR='psylock'
         TOMCAT_CREDS=credentials('tomcat-deployer')
         IMAGE_NAME='devops-simple-app'
+        SSH_COMMAND = "ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/id_rsa jenkins@${TOMCAT_URL}"
     }
     stages {
         stage('Build war') {
             steps {
                 echo 'Running build automation'
                 sh 'mvn clean package'
-                archiveArtifacts artifacts: '**/*.war'
             }
         }
     
@@ -39,13 +39,31 @@ pipeline {
                 }
             }
         }
+
+         stage('Clean UP Docker Images') {
+            steps {
+                script{
+                    try {
+                        sh "docker rmi $(docker images -q ${DOCKERHUB_USR}/*)"  
+                    }
+                    catch (err) {
+                        echo: 'caught error: $err'
+                    }
+                }
+            }
+        }
          stage ('DeployToProduction') {
             steps {
-                withCredentials ([usernamePassword(credentialsId: 'jenkins-deployer', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
-                        sh "ssh -o StrictHostKeyChecking=no -i /home/cloud_user/.ssh/id_rsa /$USERNAME@${TOMCAT_URL} \"systemctl status tomcat\""
-                        
-                    }
+                        try {
+                        sh "${SSH_COMMAND} \"docker stop ${IMAGE_NAME}\""
+                        sh "${SSH_COMMAND} \"docker rm ${IMAGE_NAME}\""
+                        sh "${SSH_COMMAND} \"docker rmi $(docker images -q ${DOCKERHUB_USR}/*)\"" 
+                        } catch (err) {
+                            echo: 'caught error: $err'
+                        }
+                        sh "${SSH_COMMAND} \"docker pull ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
+                        sh "${SSH_COMMAND} \"docker run --restart always --name ${IMAGE_NAME} -p 9090:8080 -d ${DOCKERHUB_USR}/${IMAGE_NAME}:${BUILD_NUMBER}\""
                 }
             }
         }
@@ -53,6 +71,7 @@ pipeline {
     post {
         always {
             junit '**/target/surefire-reports/TEST-*.xml'
+            archiveArtifacts artifacts: '**/*.war'
         }
     }
 }

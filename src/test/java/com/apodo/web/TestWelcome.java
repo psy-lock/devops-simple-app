@@ -46,8 +46,18 @@ public class TestWelcome {
     }
 
     @Test
-    public void testAbc() {
+    public void testA() {
         assertEquals(2, 1 + 1);
+    }
+
+    @Test
+    public void testB() {
+        assertEquals(2, 1 + 1);
+    }
+
+     @Test
+    public void testC() {
+        assertEquals(10, 1 + 1);
     }
 
 }

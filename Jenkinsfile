@@ -13,7 +13,7 @@ pipeline {
         stage('Build war') {
             steps {
                 echo 'Running build automation'
-                sh 'mvn clean package'
+                sh 'mvn -Dmaven.test.failure.ignore=true clean package'
             }
         }
     

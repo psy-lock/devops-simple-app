@@ -57,7 +57,7 @@ public class TestWelcome {
 
      @Test
     public void testC() {
-        assertEquals(10, 1 + 1);
+        assertEquals(2, 1 + 1);
     }
 
 }
